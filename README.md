@@ -1,4 +1,4 @@
-# generator-template-frontend [![Build Status](https://secure.travis-ci.org/gaia-srl/generator-template-frontend.png?branch=master)](https://travis-ci.org/gaia-srl/generator-template-frontend)
+# generator-template-frontend
 
 > [Yeoman](http://yeoman.io) generator
 
@@ -26,8 +26,11 @@ Yeoman travels light. He didn't pack any generators when he moved in. You can th
 To install generator-template-frontend from npm, run:
 
 ```bash
+# coming soon
 npm install -g generator-template-frontend
 ```
+
+In the meantime, clone the repo, `cd` into the directory and type `npm link` to link it as a local module
 
 Finally, initiate the generator:
 
