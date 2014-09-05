@@ -14,35 +14,198 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
 
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the legendary TemplateFrontend generator!'
+      'Welcome to the legendary TemplateFrontEnd generator!'
     ));
 
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+    this.prompt({
+        type    : 'input',
+        name    : 'name',
+        message : 'What is your project\'s name?',
+        default : this.appname // Default to current folder name
+    }, function (answers) {
+        
+        this.log(answers.name);
+        this.appName = this._.classify(answers.name);
 
-    this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
-
-      done();
+        done();
     }.bind(this));
+
   },
 
   writing: {
     app: function () {
-      this.dest.mkdir('app');
-      this.dest.mkdir('app/templates');
 
-      this.src.copy('_package.json', 'package.json');
-      this.src.copy('_bower.json', 'bower.json');
+      //
+      //  Create the app source code directory
+      //
+
+      // directories
+      this.dest.mkdir('app');
+
+      // empty API doc directory
+      this.dest.mkdir('app/_apidocs');
+
+      this.src.copy('app/__deploy.js', 'app/_deploy.js');
+      this.src.copy('app/__iisnode.yml', 'app/_iisnode.yml');
+      this.src.copy('app/__web.config', 'app/_web.config');
+      this.src.copy('app/__README.md', 'app/_README.md');
+
+      this.template('app/__package.json', 'app/_package.json');
+
+      //
+      //    API
+      //
+
+          this.dest.mkdir('app/api');
+          this.dest.mkdir('app/api/endpoints');
+          this.dest.mkdir('app/api/endpoints/example');
+
+          // files
+          this.src.copy('app/api/_api-basic.js', 'app/api/api-basic.js');
+          this.src.copy('app/api/_api-live.js', 'app/api/api-live.js');
+          this.src.copy('app/api/_config.js', 'app/api/config.js');
+          this.src.copy('app/api/_utils.js', 'app/api/utils.js');
+          this.src.copy('app/api/_README.md', 'app/api/README.md');
+
+          // endpoints
+          this.src.copy('app/api/endpoints/example/_getAll.js', 'app/api/endpoints/example/getAll.js');
+          this.src.copy('app/api/endpoints/example/_getName_id.js', 'app/api/endpoints/example/getName_id.js');
+          this.src.copy('app/api/endpoints/example/_getProfile_id.js', 'app/api/endpoints/example/getProfile_id.js');
+
+      //
+      //    WWW
+      //
+
+          this.dest.mkdir('app/www');
+          this.dest.mkdir('app/www/docs-assets');
+          this.dest.mkdir('app/www/docs-assets/js');
+          this.dest.mkdir('app/www/images');
+          this.dest.mkdir('app/www/scripts');
+          this.dest.mkdir('app/www/scripts/controllers');
+          this.dest.mkdir('app/www/scripts/vendor');
+          this.dest.mkdir('app/www/styles');
+          this.dest.mkdir('app/www/styles/fonts');
+          this.dest.mkdir('app/www/styles/includes');
+          this.dest.mkdir('app/www/styles/includes/components');
+          this.dest.mkdir('app/www/styles/includes/core');
+          this.dest.mkdir('app/www/templates');
+          this.dest.mkdir('app/www/templates/components');
+          this.dest.mkdir('app/www/templates/docs');
+          this.dest.mkdir('app/www/templates/helpers');
+          this.dest.mkdir('app/www/templates/layouts');
+          this.dest.mkdir('app/www/templates/pages');
+          this.dest.mkdir('app/www/templates/partials');
+
+          // files
+          this.src.copy('app/www/docs-assets/js/_iframeResizer.contentWindow.js', 'app/www/docs-assets/js/iframeResizer.contentWindow.js');
+          this.src.copy('app/www/docs-assets/js/_iframeResizer.js', 'app/www/docs-assets/js/iframeResizer.js');
+
+          this.src.copy('app/www/scripts/_main.js', 'app/www/scripts/main.js');
+          this.src.copy('app/www/scripts/controllers/_example.js', 'app/www/scripts/controllers/example.js');
+
+          this.template('app/www/styles/_main.scss', 'app/www/styles/main.scss');
+
+          this.src.copy('app/www/styles/includes/components/__media-block.scss', 'app/www/styles/includes/components/_media-block.scss');
+          this.src.copy('app/www/styles/includes/core/__fonts.scss', 'app/www/styles/includes/core/_fonts.scss');
+          this.src.copy('app/www/styles/includes/core/__helpers.scss', 'app/www/styles/includes/core/_helpers.scss');
+          this.src.copy('app/www/styles/includes/core/__mixins.scss', 'app/www/styles/includes/core/_mixins.scss');
+          this.src.copy('app/www/styles/includes/core/__variables.scss', 'app/www/styles/includes/core/_variables.scss');
+
+
+          this.src.copy('app/www/templates/components/_media-block.hbs', 'app/www/templates/components/media-block.hbs');
+
+          this.src.copy('app/www/templates/docs/_api-docs.hbs', 'app/www/templates/docs/api-docs.hbs');
+          this.src.copy('app/www/templates/docs/_component-library.hbs', 'app/www/templates/docs/component-library.hbs');
+          this.src.copy('app/www/templates/docs/_style-library-content.hbs', 'app/www/templates/docs/style-library-content.hbs');
+          this.src.copy('app/www/templates/docs/_style-library.hbs', 'app/www/templates/docs/style-library.hbs');
+
+          this.src.copy('app/www/templates/helpers/_compare.js', 'app/www/templates/helpers/compare.js');
+          this.src.copy('app/www/templates/helpers/_or.js', 'app/www/templates/helpers/or.js');
+          this.src.copy('app/www/templates/helpers/_replaceStr.js', 'app/www/templates/helpers/replaceStr.js');
+          this.src.copy('app/www/templates/helpers/_timestamp.js', 'app/www/templates/helpers/timestamp.js');
+
+          this.src.copy('app/www/templates/_index.hbs', 'app/www/templates/index.hbs');
+
+          this.src.copy('app/www/templates/layouts/_components.hbs', 'app/www/templates/layouts/components.hbs');
+          this.src.copy('app/www/templates/layouts/_default.hbs', 'app/www/templates/layouts/default.hbs');
+          this.src.copy('app/www/templates/layouts/_pages.hbs', 'app/www/templates/layouts/pages.hbs');
+
+          this.src.copy('app/www/templates/pages/_template1.hbs', 'app/www/templates/pages/template1.hbs');
+          this.src.copy('app/www/templates/pages/_template2.hbs', 'app/www/templates/pages/template2.hbs');
+          this.src.copy('app/www/templates/pages/_template3.hbs', 'app/www/templates/pages/template3.hbs');
+          this.src.copy('app/www/templates/pages/_template3.1.hbs', 'app/www/templates/pages/template3.1.hbs');
+          this.src.copy('app/www/templates/pages/_template4.hbs', 'app/www/templates/pages/template4.hbs');
+
+          this.src.copy('app/www/templates/partials/_global-footer.hbs', 'app/www/templates/partials/global-footer.hbs');
+          this.src.copy('app/www/templates/partials/_global-head.hbs', 'app/www/templates/partials/global-head.hbs');
+          this.src.copy('app/www/templates/partials/_global-header.hbs', 'app/www/templates/partials/global-header.hbs');
+          this.src.copy('app/www/templates/partials/_global-html.hbs', 'app/www/templates/partials/global-html.hbs');
+          this.src.copy('app/www/templates/partials/_global-scripts.hbs', 'app/www/templates/partials/global-scripts.hbs');
+
     },
 
-    projectfiles: function () {
+    dist: function () {
+
+        this.dest.mkdir('dist');
+
+    },
+
+    reports: function () {
+
+        this.dest.mkdir('reports');
+        this.dest.mkdir('reports/app');
+        this.dest.mkdir('reports/dist');
+
+    },
+
+    test: function () {
+
+        this.dest.mkdir('test');
+        this.dest.mkdir('test/unit');
+        this.dest.mkdir('test/unit/spec');
+
+        this.template('test/unit/_bower.json', 'test/unit/bower.json');
+
+        this.src.copy('test/unit/_index.html', 'test/unit/index.html');
+        this.src.copy('test/unit/bowerrc', 'test/unit/.bowerrc');
+
+        this.src.copy('test/unit/spec/_test.js', 'test/unit/spec/test.js');
+
+        this.dest.mkdir('test/visual');
+
+        this.dest.mkdir('test/visual/wraith');
+        this.dest.mkdir('test/visual/wraith/configs');
+        this.dest.mkdir('test/visual/wraith/javascript');
+        this.dest.mkdir('test/visual/wraith/shots');
+
+        this.src.copy('test/visual/wraith/_README.md', 'test/visual/wraith/README.md');
+        this.src.copy('test/visual/wraith/configs/_default.yaml', 'test/visual/wraith/configs/default.yaml');
+        this.src.copy('test/visual/wraith/javascript/_snap.js', 'test/visual/wraith/javascript/snap.js');
+
+    },
+
+
+    root: function () {
+
+      // TEMPLATES
+      this.template('_package.json', 'package.json');
+      this.template('_bower.json', 'bower.json');
+      this.template('_apidoc.json', 'apidoc.json');
+      this.template('_README.md', 'README.md');
+
+      // FILES
+      this.src.copy('_Gemfile', 'Gemfile');
+      this.src.copy('_notes.md', 'notes.md');
+      this.src.copy('bowerrc', '.bowerrc');
       this.src.copy('editorconfig', '.editorconfig');
+      this.src.copy('gitattributes', '.gitattributes');
+      this.src.copy('gitignore', '.gitignore');
+      this.src.copy('gitmodules', '.gitmodules');
       this.src.copy('jshintrc', '.jshintrc');
+      this.src.copy('yo-rc.json', '.yo-rc.json');
+
+      this.src.copy('deployment', '.deployment');
+      this.src.copy('_deploy.sh', 'deploy.sh');
     }
   },
 

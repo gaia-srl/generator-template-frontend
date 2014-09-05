@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+
+	<title>{{ package.name }}{{#if title}} / {{ title }}{{/if}}</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Some overrides -->
+    <style type="text/css">
+
+        html,
+        body,
+        .main,
+        .main-scroller {
+            height: 100%;
+        }
+
+        body {
+            padding: 70px 0;
+        }
+
+        .main-scroller {
+            overflow-y: auto;
+        }
+
+        .footer {
+            font-size: 0.8em;
+            line-height: 50px;
+        }
+
+    </style>
+
+	
+</head>
+<body>
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">{{ package.name }}</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li{{#if isHome}} class="active"{{/if}}><a href="/">Templates</a></li>
+            <li{{#if isApiDocs}} class="active"{{/if}}><a href="/docs/api-docs.html">API Docs</a></li>
+            {{#if development}}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Developer <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li{{#if isStyleLibrary}} class="active"{{/if}}><a href="/docs/style-library.html">General style library</a></li>
+                <li{{#if isComponentLibrary}} class="active"{{/if}}><a href="/docs/component-library.html">Component library</a></li>
+              </ul>
+            </li>
+            {{/if}}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="main">
+        <div class="main-scroller"> 
+            {{> body }}
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom text-muted footer" role="navigation">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">Last updated: <span id="last-updated" title="{{ timestamp }}">{{ timestamp }}</span></div>
+          <div class="col-md-4 text-center">Version: {{ package.version }}</div>
+          <div class="col-md-4 text-right">&copy; {{ package.author }}</div>
+        </div>
+      </div>
+    </nav>
+
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+
+    <script src="/docs-assets/js/iframeResizer.js"></script>
+
+    <script>
+        'use strict';
+
+        var lastUpdated = document.getElementById('last-updated'),
+            originalDate = '',
+            renderDate = function () {
+                lastUpdated.innerHTML = window.moment(originalDate).fromNow();
+            };
+
+        if (window.moment && lastUpdated) {
+            
+            // get original date
+            originalDate = lastUpdated.innerHTML;
+
+            // immediately render
+            renderDate();
+
+            setInterval(renderDate, 1000 * 60); // update every minute
+
+        }
+
+        jQuery(function ($) {
+            $('iframe').iFrameResize({});
+        });
+    </script>
+
+
+</body>
+</html>

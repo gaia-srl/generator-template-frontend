@@ -1,0 +1,39 @@
+---
+
+title: Templates
+isHome: true
+
+---
+
+<div class="container-fluid">
+
+  <h1>Templates</h1>
+
+  <hr>
+
+  <table class="table table-striped">
+  <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Status</th>
+      {{#if development}}
+      <th>Developer</th>
+      <th>Notes</th>
+      {{/if}}
+  </tr>
+  {{#withSort template 'data.order'}}
+    {{#each this.pages }}
+    <tr class="{{#compare this.data.status 'Complete'}}success{{/compare}}{{#compare this.data.status 'QA'}}info{{/compare}}">
+      <td>{{ this.data.id }}</td>
+      <td><a href="{{ replaceStr this.dest '.tmp/www/' '' }}">{{ this.data.name }}</a></td>
+      <td>{{ this.data.status }}</td>
+      {{#if ../../development}}
+      <td>{{ this.data.developer }}</td>
+      <td><small>{{ this.data.notes }}</small></td>
+      {{/if}}
+    </tr>
+    {{/each}}
+  {{/withSort}}
+  </table>
+
+</div>

@@ -1,0 +1,58 @@
+// ****************************
+//
+//  MIXINS
+//
+// ****************************
+
+//
+//  FONT-FACE
+//
+
+@mixin font-face ($name, $filename) {
+    @font-face {
+        font-family: $name;
+        src: url("fonts/#{$filename}.eot");
+        src: url("fonts/#{$filename}.eot?#iefix") format("embedded-opentype"),
+             url("fonts/#{$filename}.woff") format("woff"),
+             url("fonts/#{$filename}.ttf") format("truetype"),
+             url("fonts/#{$filename}.svg#$name") format("svg");
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+//
+//  FONTS
+//
+
+@mixin font-thin-condensed {
+    font-family: HelveticaNeueThinCondensed, $default-font-family;
+    font-weight: normal;
+    font-weight: 100;
+}
+
+@mixin font-light-condensed {
+    font-family: HelveticaNeueLightCondensed, $default-font-family;
+    font-weight: normal;
+    font-weight: 100;
+}
+
+@mixin font-condensed {
+    font-family: HelveticaNeueCondensed, $default-font-family;
+    font-weight: normal;
+}
+
+@mixin font-heavy-condensed {
+    font-family: HelveticaNeueHeavyCondensed, $default-font-family;
+    font-weight: normal;
+}
+
+//
+//  TEXT OVERFLOW
+//
+
+@mixin text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

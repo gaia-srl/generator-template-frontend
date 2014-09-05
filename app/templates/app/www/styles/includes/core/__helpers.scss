@@ -1,0 +1,52 @@
+// ****************************
+//
+//  HELPERS
+//
+// ****************************
+
+.offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.truncate {
+    @include text-truncate;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+//
+//
+//  CLEARING
+//
+//
+
+.clear {
+    clear: both;
+}
+
+// CLEARFIX
+
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1; // IE6 / 7
+}

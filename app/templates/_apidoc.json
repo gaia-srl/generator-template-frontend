@@ -1,0 +1,6 @@
+{
+    "name": "<%= appName %>",
+    "version": "0.0.1",
+    "title": "<%= appName %> Mock API Documentation",
+    "description": "Mock API server used for development and testing"
+}

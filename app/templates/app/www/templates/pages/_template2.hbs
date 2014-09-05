@@ -1,0 +1,30 @@
+---
+layout: pages.hbs
+template: true
+order: 2
+
+id: T2
+name: Template 2
+status: QA
+developer: Dan
+notes: Lorem ipsum
+
+title: Page title
+description: This goes in the meta description
+
+---
+
+{{> global-header }}
+
+<div class="wrapper">
+
+    <div class="hero-unit">
+        <h1>{{name}}</h1>
+    </div>
+    
+</div>
+
+{{> global-footer }}
+
+{{> global-scripts }}
+

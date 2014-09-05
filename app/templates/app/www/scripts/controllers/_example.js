@@ -1,0 +1,1 @@
+console.log('Example page script');

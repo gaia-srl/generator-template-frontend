@@ -1,0 +1,36 @@
+---
+
+layout: pages.hbs
+template: true
+
+order: 1
+id: T1
+name: Template 1
+status: Complete
+developer: Dan
+notes: Lorem ipsum sit dolor
+
+title: Page title
+description: This goes in the meta description
+
+---
+
+{{> global-header }}
+
+<div class="wrapper">
+
+    <div class="hero-unit">
+    	<h1>'Allo, 'Allo!</h1>
+        <h2>This is {{name}}</h2>
+    </div>
+
+</div>
+
+{{> global-footer }}
+
+{{> global-scripts }}
+
+<!-- build:js(app/www/pages) ../scripts/controllers/example.js -->
+<script src="../scripts/controllers/example.js"></script>
+<!-- endbuild -->
+

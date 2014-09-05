@@ -1,0 +1,28 @@
+---
+
+title: Component Library
+isComponentLibrary: true
+
+---
+
+<div class="container-fluid">
+
+    <h1>Component Library</h1>
+
+    <hr>
+
+    {{#withSort component 'data.name'}}
+        {{#each this.pages }}
+            <h2>{{ this.data.name }}</h2>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ this.data.description }}</h3>
+                </div>
+                <div class="panel-body">
+                    <iframe src="{{ replaceStr this.dest '.tmp/www' '' }}" style="width: 100%; margin-top: 10px;" scrolling="no" frameborder="0"></iframe>
+                </div>
+            </div>
+        {{/each}}
+    {{/withSort}}
+
+</div>

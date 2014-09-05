@@ -1,6 +1,9 @@
 {
-  "name": "package",
-  "version": "0.0.0",
-  "dependencies": {}
+  "name": "<%= appName %>",
+  "version": "0.0.1",
+  "dependencies": {
+    "modernizr": "~2.6.2",
+    "_normalize.scss": "~2.1.3"
+  },
+  "devDependencies": {}
 }
-
