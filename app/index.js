@@ -213,7 +213,19 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
   },
 
   end: function () {
+    // install main dependencies
     this.installDependencies();
+
+    // Change working directory to 'test' for dependency install
+    var testDir = process.cwd() + '/test/unit';
+    process.chdir(testDir);
+    
+    // install test dependencies
+    this.installDependencies({
+        bower: true,
+        npm: false
+    });
+
   }
 });
 

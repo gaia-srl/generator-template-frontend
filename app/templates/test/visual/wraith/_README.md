@@ -10,13 +10,15 @@ This tool allows you to take full-page screenshots of two different environments
 
 ### Installation
 
-You'll need Ruby, Imagemagick and PhantomJS. If you're on OS X it is probably easiest to use [Homebrew](http://brew.sh/).
+You'll need Ruby, Imagemagick and PhantomJS or SlimerJS. If you're on OS X it is easiest to use [Homebrew](http://brew.sh/).
 
     $ brew update
     $ brew install phantomjs
     $ brew install imagemagick
 
 Note: I had some problems with imagemagick on my laptop - this answer solved it for me: [http://stackoverflow.com/a/7457876](http://stackoverflow.com/a/7457876)
+
+Full instructions here: [http://bbc-news.github.io/wraith/os-install.html](http://bbc-news.github.io/wraith/os-install.html)
 
 Once everything else is installed you can run the following command in the project root:
 

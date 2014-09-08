@@ -74,3 +74,30 @@ This will start the following servers:
  - `.bower` - Front end packages installed with [Bower.io](http://www.bower.io)
  - `Gruntfile.js` - the project Gruntfile
  - `package.json` - Node.js packages installed by NPM
+
+## Regression tests
+
+We've included a basic set up for [Wraith](https://github.com/BBC-News/wraith), however you need to complete the following steps to get it working.
+
+First you need to install [Ruby](https://www.ruby-lang.org/), [Imagemagick](http://www.imagemagick.org/) and [PhantomJS](http://phantomjs.org/) or [SlimerJS](http://slimerjs.org/). Full instructions here:
+
+[http://bbc-news.github.io/wraith/os-install.html](http://bbc-news.github.io/wraith/os-install.html)
+
+Next install the Wraith package:
+
+    $ bundle install
+
+Once everything is installed change directory into the wraith directory:
+
+    $ cd test/visual/wraith
+
+And run the following commands:
+
+    $ grunt serve-all
+    $ wraith capture default
+
+This will capture screenshots and their diffs and create a gallery here:
+
+    test/visual/wraith/shots/gallery.html
+
+Full instructions here: [test/visual/wraith/README.md](test/visual/wraith/README.md)

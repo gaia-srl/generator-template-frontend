@@ -1,11 +1,4 @@
-// Generated on 2014-08-29 using generator-yawa 0.4.7
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
     // show elapsed time at the end
@@ -21,7 +14,8 @@ module.exports = function (grunt) {
             ports: {
                 www: 9000,
                 api: 9001,
-                dist: 9002
+                dist: 9002,
+                test: 9003
             },
             paths: {
                 tmp: '.tmp',
@@ -37,32 +31,6 @@ module.exports = function (grunt) {
                 release: 'minor'
             }
         },
-        // esteWatch: {
-        //     options: {
-        //         dirs: [
-        //             '<%= settings.paths.app %>/<%= settings.paths.www %>/styles/**/',
-        //             '<%= settings.paths.app %>/<%= settings.paths.www %>/templates/**/',
-        //             '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/**/',
-        //             '<%= settings.paths.app %>/<%= settings.paths.www %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
-        //         ],
-        //         livereload: {
-        //             enabled: true,
-        //             port: '<%= connect.options.livereload %>',
-        //             extensions: ['js', 'scss', 'sass', 'hbs']
-        //         }
-        //     },
-        //     // CSS
-        //     scss: function () {
-        //         return ['compass:server', 'autoprefixer'];
-        //     },
-        //     sass: function () {
-        //         return ['compass:server', 'autoprefixer'];
-        //     },
-        //     // Assemble templates
-        //     hbs: function () {
-        //         return ['assemble:server', 'bless:server'];
-        //     }
-        // },
         watch: {
             compass: {
                 files: ['<%= settings.paths.app %>/<%= settings.paths.www %>/styles/**/*.{scss,sass}'],
@@ -92,8 +60,7 @@ module.exports = function (grunt) {
         express: {
             options: {
                 //serverreload: true,  // BEWARE: this clobbers the grunt-contrib-watch task so it stops working
-                hostname: '<%= settings.hostname %>',
-                // showStack: true
+                hostname: '<%= settings.hostname %>'
             },
             api: {
                 options: {
@@ -105,7 +72,6 @@ module.exports = function (grunt) {
         connect: {
             options: {
                 livereload: 35729,
-                // change this to '0.0.0.0' to access the server from outside
                 hostname: '<%= settings.hostname %>'
             },
             www: {
@@ -139,7 +105,7 @@ module.exports = function (grunt) {
                 },
                 proxies: [
                     {
-                        context: '/api/',
+                        context: '/<%= settings.paths.api %>/',
                         host: '<%= settings.hostname %>',
                         port: '<%= settings.ports.api %>'
                     }
@@ -154,6 +120,7 @@ module.exports = function (grunt) {
             },
             test: {
                 options: {
+                    port: '<%= settings.ports.test %>',
                     base: [
                         '<%= settings.paths.tmp %>',
                         'test/unit',
