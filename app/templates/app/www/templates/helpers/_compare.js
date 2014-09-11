@@ -1,7 +1,7 @@
 module.exports.register = function (Handlebars, options) {
   'use strict';
 
-    // {{compare unicorns ponies operator="<"}}
+    // {{#compare unicorns ponies operator="<"}}
     //  I knew it, unicorns are just low-quality ponies!
     // {{/compare}}
     // 
