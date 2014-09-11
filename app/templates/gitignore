@@ -2,5 +2,5 @@ node_modules
 .bundle
 .tmp
 .sass-cache
-app/www/bower_components
+bower_components
 test/visual/wraith/shots

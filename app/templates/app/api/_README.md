@@ -58,9 +58,21 @@ The method is passed three (optional) arguments:
  - `query` - GET query object
  - `body` - the request body string
 
-**The method must return a valid JS object.**
+**The method must return the correct data.**
 
-The returned object is converted to JSON and sent back to the client as the request response.
+    return {
+        delay: 1000,
+        status: 200,
+        data: {
+            var1: true,
+            var2: '78'
+        }
+    };
+
+The `data` property in the returned object is converted to JSON and sent back to the client as the request response.
+The `delay` property delays the response from the server, to simulate latency.
+The `status` code is the HTTP status code, e.g. 200 == OK
+
 
 Individual properties in the `params` and `query` objects can be accessed like so:
 

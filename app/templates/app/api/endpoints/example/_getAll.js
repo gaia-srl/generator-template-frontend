@@ -61,7 +61,11 @@ module.exports = {
 
         });
 
-        return utils.wrapper(response);
+        return {
+            delay: 0, // delay the response (milliseconds)
+            status: 200, // response HTTP status code
+            data: utils.wrapper(response) // the JSON data
+        };
 
     }
 };

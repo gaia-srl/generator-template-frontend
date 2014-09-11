@@ -163,13 +163,12 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
         this.dest.mkdir('test');
         this.dest.mkdir('test/unit');
         this.dest.mkdir('test/unit/spec');
+        this.dest.mkdir('test/unit/spec/api');
+        this.dest.mkdir('test/unit/spec/api/user');
+        this.dest.mkdir('test/unit/spec/www');
 
-        this.template('test/unit/_bower.json', 'test/unit/bower.json');
-
-        this.src.copy('test/unit/_index.html', 'test/unit/index.html');
-        this.src.copy('test/unit/bowerrc', 'test/unit/.bowerrc');
-
-        this.src.copy('test/unit/spec/_test.js', 'test/unit/spec/test.js');
+        this.src.copy('test/unit/spec/api/user/_getAll.spec.js', 'test/unit/spec/api/user/getAll.spec.js');
+        this.src.copy('test/unit/spec/www/_main.spec.js', 'test/unit/spec/www/main.spec.js');
 
         this.dest.mkdir('test/visual');
 
@@ -215,17 +214,6 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
   end: function () {
     // install main dependencies
     this.installDependencies();
-
-    // Change working directory to 'test' for dependency install
-    var testDir = process.cwd() + '/test/unit';
-    process.chdir(testDir);
-    
-    // install test dependencies
-    this.installDependencies({
-        bower: true,
-        npm: false
-    });
-
   }
 });
 

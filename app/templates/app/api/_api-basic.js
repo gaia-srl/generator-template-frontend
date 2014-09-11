@@ -71,34 +71,51 @@ module.exports = (function () {
     var create = {
         post: function (route, handler) {
             app.post(route, function (req, res) {
-                res.setHeader('Content-Type','application/json; charset=utf-8');
-                res.send(handler(req.params, req.query, req.body));
+                
+                var response = handler(req.params, req.query, req.body);
+
+                setTimeout(function () {
+                    res.setHeader('Content-Type','application/json; charset=utf-8');
+                    res.status(response.status).send(response.data);
+                }, response.delay);
+
             });
         },
         get: function (route, handler) {
             app.get(route, function (req, res) {
-                res.setHeader('Content-Type','application/json; charset=utf-8');
-                res.send(handler(req.params, req.query, req.body));
-            });
+                var response = handler(req.params, req.query, req.body);
+
+                setTimeout(function () {
+                    res.setHeader('Content-Type','application/json; charset=utf-8');
+                    res.status(response.status).send(response.data);
+                }, response.delay);            });
         },
         put: function (route, handler) {
             app.put(route, function (req, res) {
-                res.setHeader('Content-Type','application/json; charset=utf-8');
-                res.send(handler(req.params, req.query, req.body));
-            });
+                var response = handler(req.params, req.query, req.body);
+
+                setTimeout(function () {
+                    res.setHeader('Content-Type','application/json; charset=utf-8');
+                    res.status(response.status).send(response.data);
+                }, response.delay);            });
         },
         delete: function (route, handler) {
             app.delete(route, function (req, res) {
-                res.setHeader('Content-Type','application/json; charset=utf-8');
-                res.send(handler(req.params, req.query, req.body));
-            });
+                var response = handler(req.params, req.query, req.body);
+
+                setTimeout(function () {
+                    res.setHeader('Content-Type','application/json; charset=utf-8');
+                    res.status(response.status).send(response.data);
+                }, response.delay);            });
         },
         status: function (route, handler) {
             app.all(route, function (req, res) {
                 var response = handler();
-                res.setHeader('Content-Type','application/json; charset=utf-8');
-                res.status(response.code, response.message);
-                res.send(response);
+
+                setTimeout(function () {
+                    res.setHeader('Content-Type','application/json; charset=utf-8');
+                    res.status(response.status, response.statusMessage).send(response.data);
+                }, response.delay);
             });
         },
         test: function (code, message) {
@@ -111,8 +128,10 @@ module.exports = (function () {
                 route: route,
                 response: function () {
                     return {
-                        code: code,
-                        message: message
+                        status: code,
+                        statusMessage: message,
+                        delay: 0,
+                        data: {}
                     };
                 }
             };

@@ -40,10 +40,13 @@ module.exports = {
     // define the response
     response: function (params, query, body) {
 
-        return utils.wrapper({
-            id: query.id,
-            name: 'Example user'
-        });
-
+        return {
+            delay: 0, // delay the response (milliseconds)
+            status: 200, // response HTTP status code
+            data: utils.wrapper({
+                id: query.id,
+                name: 'Example user'
+            })
+        };
     }
 };

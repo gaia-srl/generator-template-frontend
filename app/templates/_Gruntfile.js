@@ -23,7 +23,8 @@ module.exports = function (grunt) {
                 www: 'www',
                 api: 'api',
                 apidocs: '_apidocs',
-                dist: 'dist'
+                dist: 'dist',
+                test: 'test'
             },
             apiType: 'live', // live or basic
             autoVersioning: {
@@ -52,6 +53,14 @@ module.exports = function (grunt) {
                     // 'validation:server' // uncomment to enable HTML validation (it can be slow)
                 ]
             },
+            karma: {
+                files: [
+                    '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/**/*.js',
+                    '!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*',
+                    '<%= settings.paths.test %>/unit/spec/**/*.js'
+                ],
+                tasks: ['karma:unit:run']
+            }
             // api: {
             //     files: ['<%= settings.paths.app %>/<%= settings.paths.api %>/**/*.js'],
             //     tasks: ['express-restart:api'] // doesn't work - https://github.com/blai/grunt-express/issues/28
@@ -123,7 +132,7 @@ module.exports = function (grunt) {
                     port: '<%= settings.ports.test %>',
                     base: [
                         '<%= settings.paths.tmp %>',
-                        'test/unit',
+                        '<%= settings.paths.test %>/unit',
                         '<%= settings.paths.app %>/<%= settings.paths.www %>'
                     ]
                 }
@@ -167,17 +176,34 @@ module.exports = function (grunt) {
                 // '<%= settings.paths.app %>/<%= settings.paths.api %>/{,*/}*.js',
                 '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/{,*/}*.js',
                 '!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*',
-                'test/unit/spec/{,*/}*.js'
+                //'<%= settings.paths.test %>/unit/spec/{,*/}*.js'
             ]
         },
-        mocha: {
-            all: {
-                options: {
-                    run: true,
-                    urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
-                }
+        karma: {
+            options: {
+                port: '<%= settings.ports.test %>',
+                files: [
+                    '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/{,*/}*.js',
+                    '!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*',
+                    '<%= settings.paths.test %>/unit/spec/www/{,*/}*.js'
+                ]
+            },
+            unit: {
+                configFile: '<%= settings.paths.test %>/unit/karma.config.js',
+                background: true,
+                singleRun: false
             }
         },
+        // jasmine_node: {
+        //     options: {
+        //         //specFolders: ['<%= settings.paths.test %>/unit/api/'],
+        //         specNameMatcher: '.spec',
+        //         jUnit: {
+        //             savePath: 'reports/jUnit/'
+        //         }
+        //     },
+        //     all: ['<%= settings.paths.test %>/unit/api/']
+        // },
         compass: {
             options: {
                 sassDir: '<%= settings.paths.app %>/<%= settings.paths.www %>/styles',
@@ -570,6 +596,8 @@ module.exports = function (grunt) {
             'connect:www',
             'express:api',
 
+            'karma:unit',
+
             'watch'
         ]);
     });
@@ -587,9 +615,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'concurrent:test',
-        'autoprefixer',
-        'connect:test',
-        'mocha'
+        'autoprefixer'
     ]);
 
     grunt.registerTask('serve-all', function () {

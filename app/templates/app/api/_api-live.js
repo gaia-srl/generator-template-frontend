@@ -79,7 +79,11 @@ module.exports = (function () {
 
             if (endpoint.verbs.indexOf(method) > -1) {
 
-                return res.status(200).send(endpoint.response(req.params, req.query, req.body));
+                var response = endpoint.response(req.params, req.query, req.body);
+
+                setTimeout(function () {
+                    return res.status(response.status).send(response.data);
+                }, response.delay);
 
             } else {
 
