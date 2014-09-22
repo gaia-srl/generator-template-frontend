@@ -167,6 +167,8 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
         this.dest.mkdir('test/unit/spec/api/user');
         this.dest.mkdir('test/unit/spec/www');
 
+        this.src.copy('test/unit/_karma.config.js', 'test/unit/spec/karma.config.js');
+
         this.src.copy('test/unit/spec/api/user/_getAll.spec.js', 'test/unit/spec/api/user/getAll.spec.js');
         this.src.copy('test/unit/spec/www/_main.spec.js', 'test/unit/spec/www/main.spec.js');
 
