@@ -1,2 +1,4 @@
 source "https://rubygems.org"
 gem 'wraith'
+gem 'sass'
+gem 'compass'
