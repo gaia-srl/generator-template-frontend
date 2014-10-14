@@ -189,7 +189,7 @@ module.exports = function (grunt) {
                 ]
             },
             unit: {
-                configFile: '<%= settings.paths.test %>/unit/karma.config.js',
+                configFile: '<%= settings.paths.test %>/unit/spec/karma.config.js',
                 background: true,
                 singleRun: false
             }
