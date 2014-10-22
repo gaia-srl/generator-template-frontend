@@ -416,14 +416,18 @@ module.exports = function (grunt) {
             }
         },
         modernizr: {
-            devFile: '<%= settings.paths.app %>/<%= settings.paths.www %>/bower_components/modernizr/modernizr.js',
-            outputFile: '<%= settings.paths.tmp %>/<%= settings.paths.www %>/bower_components/modernizr/modernizr.js',
-            files: [
-                '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/{,*/}*.js',
-                '<%= settings.paths.tmp %>/<%= settings.paths.www %>/styles/{,*/}*.css',
-                '!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*'
-            ],
-            uglify: true
+            dist: {
+                devFile: '<%= settings.paths.app %>/<%= settings.paths.www %>/bower_components/modernizr/modernizr.js',
+                outputFile: '<%= settings.paths.tmp %>/<%= settings.paths.www %>/bower_components/modernizr/modernizr.js',
+                files: {
+                    src: [
+                        '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/{,*/}*.js',
+                        '<%= settings.paths.tmp %>/<%= settings.paths.www %>/styles/{,*/}*.css'
+                    ]
+                },
+                excludeFiles: ['!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*'],
+                uglify: true
+            }
         },
         concurrent: {
             server: [
