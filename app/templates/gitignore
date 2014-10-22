@@ -4,3 +4,5 @@ node_modules
 .sass-cache
 bower_components
 test/visual/wraith/shots
+dist
+app/_apidocs
