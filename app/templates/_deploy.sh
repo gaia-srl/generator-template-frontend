@@ -109,7 +109,29 @@ fi
 # 2. Select node version
 selectNodeVersion
 
-# 3. Install npm packages
+# 3. Install npm packages (for Grunt) 
+if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then  
+  eval $NPM_CMD install  
+  exitWithMessageOnError "npm failed"  
+fi  
+  
+# 4. Install bower packages  
+if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then  
+  eval $NPM_CMD install bower  
+  exitWithMessageOnError "installing bower failed"  
+  ./node_modules/.bin/bower install  
+  exitWithMessageOnError "bower failed"  
+fi  
+  
+# 5. Run grunt build task
+# if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then  
+#   eval $NPM_CMD install grunt-cli  
+#   exitWithMessageOnError "installing grunt failed"  
+#   ./node_modules/.bin/grunt build --deploy  
+#   exitWithMessageOnError "grunt failed"  
+# fi  
+
+# 6. Install npm packages (for deploy server)
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install
