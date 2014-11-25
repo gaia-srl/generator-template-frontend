@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "^4.8.6",
+    "body-parser": "^1.9.3",
     "basic-auth-connect": "^1.0.0",
     "lodash-node": "^2.4.1",
     "underscore.string": "^2.3.3",

@@ -17,6 +17,7 @@ module.exports = (function () {
     var _ = require('lodash-node');
     var _s = require('underscore.string');
     var express = require('express');
+    var bodyParser = require('body-parser');
     var glob = require('glob');
     var app = express();
     var path = require('path');
@@ -28,6 +29,18 @@ module.exports = (function () {
     var endpointPath = __dirname + '/endpoints/';
 
     var endpoints = {};
+    
+    // *********************************
+    //
+    //  APP SETUP
+    //
+    // *********************************
+
+    // parse application/json
+    app.use(bodyParser.json());
+
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false }));
 
     // *********************************
     //

@@ -13,6 +13,7 @@ module.exports = (function () {
     // *********************************
 
     var express = require('express');
+    var bodyParser = require('body-parser');
     var app = express();
     var fs = require('fs');
     var config = require('./config');
@@ -20,6 +21,17 @@ module.exports = (function () {
     var apiRoot = config.root || '/api/';
     var endpointPath = __dirname + '/endpoints/';
 
+    // *********************************
+    //
+    //  APP SETUP
+    //
+    // *********************************
+
+    // parse application/json
+    app.use(bodyParser.json());
+
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false }));
 
     // *********************************
     //
