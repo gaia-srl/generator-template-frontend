@@ -97,6 +97,9 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
           this.dest.mkdir('app/www/templates/partials');
 
           // files
+          this.src.copy('app/www/_robots.txt', 'app/www/robots.txt');
+          this.src.copy('app/www/_favicon.ico', 'app/www/favicon.ico');
+
           this.src.copy('app/www/docs-assets/js/_iframeResizer.contentWindow.js', 'app/www/docs-assets/js/iframeResizer.contentWindow.js');
           this.src.copy('app/www/docs-assets/js/_iframeResizer.js', 'app/www/docs-assets/js/iframeResizer.js');
 
