@@ -2,6 +2,8 @@
 <html>
 <head>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 	<title>{{ package.name }}{{#if title}} / {{ title }}{{/if}}</title>
 
 	<!-- Bootstrap -->
@@ -77,9 +79,9 @@
     <nav class="navbar navbar-default navbar-fixed-bottom text-muted footer" role="navigation">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-4">Last updated: <span id="last-updated" title="{{ timestamp }}">{{ timestamp }}</span></div>
+          <div class="hidden-xs col-md-4">Last updated: <span id="last-updated" title="{{ timestamp }}">{{ timestamp }}</span></div>
           <div class="col-md-4 text-center">Version: {{ package.version }}</div>
-          <div class="col-md-4 text-right">&copy; {{ package.author }}</div>
+          <div class="col-md-4 text-right hidden-xs">&copy; {{ package.author }}</div>
         </div>
       </div>
     </nav>

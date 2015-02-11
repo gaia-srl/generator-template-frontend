@@ -17,8 +17,8 @@ isHome: true
       <th>Name</th>
       <th>Status</th>
       {{#if development}}
-      <th>Developer</th>
-      <th>Notes</th>
+      <th class="hidden-xs">Developer</th>
+      <th class="hidden-xs">Notes</th>
       {{/if}}
   </tr>
   {{#withSort template 'data.order'}}
@@ -28,8 +28,8 @@ isHome: true
       <td><a href="{{ replaceStr this.dest '.tmp/www/' '' }}">{{ this.data.name }}</a></td>
       <td>{{ this.data.status }}</td>
       {{#if ../../development}}
-      <td>{{ this.data.developer }}</td>
-      <td><small>{{ this.data.notes }}</small></td>
+      <td class="hidden-xs">{{ this.data.developer }}</td>
+      <td class="hidden-xs"><small>{{ this.data.notes }}</small></td>
       {{/if}}
     </tr>
     {{/each}}
