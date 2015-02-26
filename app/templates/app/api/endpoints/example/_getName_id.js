@@ -10,9 +10,9 @@
  *
  * Last line of Description.
  *
- * @apiParam {Number|String} id Users unique ID.
+ * @apiParam {Mixed} id Users unique ID. String or Number.
  *
- * @apiSuccess {Number|String} id Unique ID of the User.
+ * @apiSuccess {Mixed} id Unique ID of the User. String or Number.
  * @apiSuccess {String} name  Name of the User.
  *
  *

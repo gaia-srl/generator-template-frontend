@@ -11,7 +11,7 @@
  * Last line of Description.
  *
  * @apiSuccess {Array} users
- * @apiSuccess {Number|String} users.id Unique ID of the User.
+ * @apiSuccess {Mixed} users.id Unique ID of the User. String or Number.
  * @apiSuccess {String} users.name  Name of the User.
  *
  *
