@@ -37,21 +37,21 @@ module.exports = function (grunt) {
                 files: ['<%= settings.paths.app %>/<%= settings.paths.www %>/styles/**/*.{scss,sass}'],
                 tasks: ['compass:server', 'autoprefixer']
             },
+            assemble: {
+                files: ['<%= settings.paths.app %>/<%= settings.paths.www %>/templates/**/*.{js,hbs}'],
+                tasks: ['assemble:server']
+            },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= settings.paths.app %>/<%= settings.paths.www %>/templates/**/*.{js,hbs}',
-                    '{<%= settings.paths.tmp %>,<%= settings.paths.app %>}/<%= settings.paths.www %>/styles/**/*.{scss,sass,css}',
+                    '<%= settings.paths.tmp %>/<%= settings.paths.www %>/pages/**/*.html',
+                    '<%= settings.paths.tmp %>/<%= settings.paths.www %>/styles/**/*.css',
                     '{<%= settings.paths.tmp %>,<%= settings.paths.app %>}/<%= settings.paths.www %>/scripts/**/*.js',
                     '<%= settings.paths.app %>/<%= settings.paths.www %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ],
-                tasks: [
-                    'assemble:server',
-                    'bless:server',
-                    // 'validation:server' // uncomment to enable HTML validation (it can be slow)
-                ]
+                tasks: []
             },
             karma: {
                 files: [
