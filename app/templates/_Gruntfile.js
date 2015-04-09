@@ -4,10 +4,21 @@ module.exports = function (grunt) {
     // show elapsed time at the end
     require('time-grunt')(grunt);
     // load all grunt tasks
-    require('load-grunt-tasks')(grunt);
+    require('jit-grunt')(grunt, {
+        replace: 'grunt-text-replace',
+        configureProxies: 'grunt-connect-proxy',
+        useminPrepare: 'grunt-usemin',
+        validation: 'grunt-html-validation'
+    });
+
+    var minify = !!grunt.option('minify'),
+        bump = grunt.option('bump'); // major | minor | patch
+
+    // e.g. $ grunt build --bump=major
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        bower: grunt.file.readJSON('.bowerrc'),
         // configurable paths
         settings: {
             hostname: '0.0.0.0',
@@ -26,12 +37,13 @@ module.exports = function (grunt) {
                 dist: 'dist',
                 test: 'test'
             },
-            apiType: 'live', // live or basic
-            autoVersioning: {
-                build: 'patch',
-                release: 'minor'
-            }
+            apiType: 'live' // live or basic
+            // autoVersioning: {
+            //     build: 'patch',
+            //     release: 'minor'
+            // }
         },
+        banner: '/*! v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n',
         watch: {
             compass: {
                 files: ['<%= settings.paths.app %>/<%= settings.paths.www %>/styles/**/*.{scss,sass}'],
@@ -53,14 +65,14 @@ module.exports = function (grunt) {
                 ],
                 tasks: []
             },
-            karma: {
-                files: [
-                    '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/**/*.js',
-                    '!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*',
-                    '<%= settings.paths.test %>/unit/spec/**/*.js'
-                ],
-                tasks: ['karma:unit:run']
-            }
+            // karma: {
+            //     files: [
+            //         '<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/**/*.js',
+            //         '!<%= settings.paths.app %>/<%= settings.paths.www %>/scripts/vendor/*',
+            //         '<%= settings.paths.test %>/unit/spec/**/*.js'
+            //     ],
+            //     tasks: ['karma:unit:run']
+            // }
             // api: {
             //     files: ['<%= settings.paths.app %>/<%= settings.paths.api %>/**/*.js'],
             //     tasks: ['express-restart:api'] // doesn't work - https://github.com/blai/grunt-express/issues/28
@@ -139,6 +151,12 @@ module.exports = function (grunt) {
             }
         },
         clean: {
+            plugins: {
+                files: [{
+                    dot: true,
+                    src: [/*'<%= settings.paths.app %>/<%= settings.paths.www %>/plugins'*/]
+                }]
+            },
             dist: {
                 files: [{
                     dot: true,
@@ -165,6 +183,12 @@ module.exports = function (grunt) {
                         '<%= settings.paths.app %>/<%= settings.paths.apidocs %>'
                     ]
                 }]
+            },
+            release: {
+                options: {
+                    force: true
+                },
+                files: []
             }
         },
         jshint: {
@@ -350,8 +374,50 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        concat: {
+            options: {
+                banner: '<%= banner %>'
+            }
+        },
+        uglify: {
+            options: {
+                banner: '<%= banner %>',
+                sourceMap: true,
+
+                mangle: minify,
+                compress: minify,
+                beautify: !minify,
+                preserveComments: minify ? false : 'all'
+            }
+        },
         // Put files not handled in other tasks here
         copy: {
+            plugins: {
+                files: [/*{
+                    // VideoJS SWF files
+                    expand: true,
+                    dot: true,
+                    flatten: true,
+                    cwd: '<%= bower.directory %>/videojs/dist/video-js/',
+                    dest: '<%= settings.paths.app %>/<%= settings.paths.www %>/plugins',
+                    src: [
+                        'video-js.swf'
+                    ]
+                }, {
+                    // VideoJS fonts
+                    expand: true,
+                    dot: true,
+                    flatten: true,
+                    cwd: '<%= bower.directory %>/videojs/dist/video-js/font',
+                    dest: '<%= settings.paths.app %>/<%= settings.paths.www %>/styles/fonts',
+                    src: [
+                        'vjs.eot',
+                        'vjs.svg',
+                        'vjs.ttf',
+                        'vjs.woff'
+                    ]
+                }*/]
+            },
             dist: {
                 files: [{
                     // assets
@@ -413,6 +479,9 @@ module.exports = function (grunt) {
                         'components/**/*'
                     ]
                 }]
+            },
+            release: {
+                files: [] // define files to be copied to another place during the release task
             }
         },
         modernizr: {
@@ -589,6 +658,8 @@ module.exports = function (grunt) {
             'clean:server',
             'clean:apidocs',
 
+            'clean:plugins',
+            'copy:plugins',
             'assemble:server',
             'concurrent:server',
             'autoprefixer',
@@ -600,7 +671,7 @@ module.exports = function (grunt) {
             'connect:www',
             'express:api',
 
-            'karma:unit',
+            //'karma:server',
 
             'watch'
         ]);
@@ -619,7 +690,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'concurrent:test',
-        'autoprefixer'
+        'autoprefixer',
+        'karma:test'
     ]);
 
     grunt.registerTask('serve-all', function () {
@@ -632,7 +704,9 @@ module.exports = function (grunt) {
         'clean:apidocs',
         'apidoc',
         'replace:apidocs',
-        'replace:dist'
+        'replace:dist',
+        'clean:plugins',
+        'copy:plugins'
     ]);
 
     grunt.registerTask('run-build', [
@@ -644,15 +718,17 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy:dist',
-        'bless:dist',
+        //'bless:dist',
         'usemin',
         'validation:dist',
+        //'karma:dist'
         //'htmlmin:deploy'
     ]);
 
+
     grunt.registerTask('build', [
         'prepare-build',
-        grunt.config('settings.autoVersioning.build') ? 'version::' + grunt.config('settings.autoVersioning.build') : 'noop',
+        bump ? 'version::' + bump : 'noop',
         'assemble:server', // use the server task here
         'run-build',
         'notify:build'
@@ -661,9 +737,11 @@ module.exports = function (grunt) {
     // build the project, with developer stuff removed
     grunt.registerTask('release', [
         'prepare-build',
-        grunt.config('settings.autoVersioning.release') ? 'version::' + grunt.config('settings.autoVersioning.release') : 'noop',
+        bump ? 'version::' + bump : 'noop',
         'assemble:release', // use the release task here
         'run-build',
+        'clean:release',
+        'copy:release',
         'notify:release'
     ]);
 

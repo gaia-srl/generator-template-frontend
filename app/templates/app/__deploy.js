@@ -12,6 +12,17 @@ module.exports = (function () {
 
     // *********************************
     //
+    //  BLOCK SEARCH ENGINES
+    //
+    // *********************************
+
+    app.use(function(req, res, next){
+        res.setHeader('X-Robots-Tag','noindex, nofollow');
+        next();
+    });
+
+    // *********************************
+    //
     //  LISTEN
     //
     // *********************************

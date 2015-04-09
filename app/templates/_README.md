@@ -36,13 +36,11 @@ Compile project ready to deploy for QA
 
     $ grunt build
 
-(this will bump the `patch` version number, e.g. 0.0.1 will become 0.0.2)
-
 Compile project ready for release to client
 
     $ grunt release
 
-(this will bump the `minor` version number, e.g. 0.0.1 will become 0.1.0)
+This task can also be configured to copy compiled files into another directory (e.g. a .Net project)
 
 Update API docs (also happens during `build`)
 
@@ -57,6 +55,16 @@ This will start the following servers:
  - [http://0.0.0.0:9000](http://0.0.0.0:9000) - development server (`app` directory)
  - [http://0.0.0.0:9001](http://0.0.0.0:9001) - API server
  - [http://0.0.0.0:9002](http://0.0.0.0:9002) - compiled server (`dist` directory)
+
+### Versioning
+
+You can bump the project version using a grunt task, for example:
+
+    $ grunt build --bump=minor
+
+    $ grunt release --bump=major
+
+Options are: `major`, `minor` or `patch`
 
 ## Structure
 
