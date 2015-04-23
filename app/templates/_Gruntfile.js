@@ -12,7 +12,9 @@ module.exports = function (grunt) {
     });
 
     var minify = !!grunt.option('minify'),
-        bump = grunt.option('bump'); // major | minor | patch
+        bump = grunt.option('bump'), // major | minor | patch
+        noauth = !!grunt.option('no-auth'),
+        open = !!grunt.option('open');
 
     // e.g. $ grunt build --bump=major
 
@@ -118,7 +120,9 @@ module.exports = function (grunt) {
                         return middlewares;
                     },
                     // open this in the browser
-                    open: true,
+                    open: open ? {
+                        target: 'http://localhost:<%= settings.ports.www %>' // open on localhost instead of 0.0.0.0 because Chrome thinks its a search
+                    } : false, // only open if requested
                     base: [
                         '<%= settings.paths.tmp %>/<%= settings.paths.www %>',
                         '<%= settings.paths.app %>/<%= settings.paths.www %>'
@@ -612,8 +616,11 @@ module.exports = function (grunt) {
                     from: /"description":\s*"[^"]*"/,
                     to: '"description": "<%= pkg.description %>"'
                 }, {
-                    from: '{{ apiType }}',
-                    to: '<%= settings.apiType %>'
+                    from: /var apiType = '(live|basic)';/,
+                    to: 'var apiType = \'<%= settings.apiType %>\';'
+                }, {
+                    from: /var enableAuth = (true|false);/,
+                    to: noauth ? 'var enableAuth = false;' : 'var enableAuth = true;'
                 }]
             },
             apidocs: {
