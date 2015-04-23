@@ -17,6 +17,9 @@ Boot up development server:
 
     $ grunt serve
 
+    # if you wish to automatically open a browser window use the open option
+    $ grunt serve --open
+
 This will start the following servers:
 
  - [http://0.0.0.0:9000](http://0.0.0.0:9000) - development server (`app` directory)
@@ -39,6 +42,9 @@ Compile project ready to deploy for QA
 Compile project ready for release to client
 
     $ grunt release
+
+    # to make a release without password protection use the no-auth option
+    $ grunt release --no-auth
 
 This task can also be configured to copy compiled files into another directory (e.g. a .Net project)
 

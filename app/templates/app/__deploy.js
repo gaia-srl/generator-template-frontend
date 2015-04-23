@@ -2,7 +2,12 @@
 
 module.exports = (function () {
 
-    var app = require('./api/api-live');
+    // replace by build process - DO NOT EDIT MANUALLY
+    var apiType = 'live';
+    var enableAuth = true;
+    // end build replace
+
+    var app = require('./api/api-' + apiType);
     var express = require('express');
     var basicAuth = require('basic-auth-connect');
 
@@ -35,8 +40,10 @@ module.exports = (function () {
     //
     // *********************************
 
-    app.use(basicAuth('username', 'password'));
-
+    if (enableAuth) {
+        app.use(basicAuth('username', 'password'));
+    }
+    
     // *********************************
     //
     //  Serve www in root
