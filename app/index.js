@@ -59,6 +59,7 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
           this.dest.mkdir('app/api');
           this.dest.mkdir('app/api/endpoints');
           this.dest.mkdir('app/api/endpoints/example');
+          this.dest.mkdir('app/api/data');
 
           // files
           this.src.copy('app/api/_api-basic.js', 'app/api/api-basic.js');
@@ -71,6 +72,9 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
           this.src.copy('app/api/endpoints/example/_getAll.js', 'app/api/endpoints/example/getAll.js');
           this.src.copy('app/api/endpoints/example/_getName_id.js', 'app/api/endpoints/example/getName_id.js');
           this.src.copy('app/api/endpoints/example/_getProfile_id.js', 'app/api/endpoints/example/getProfile_id.js');
+
+          // data
+          this.src.copy('app/api/data/_example.json', 'app/api/data/example.json');
 
       //
       //    WWW

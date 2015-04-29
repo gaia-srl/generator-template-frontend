@@ -1,0 +1,5 @@
+{
+    "name": "You can create reusable data in this directory",
+    "filetypes": "Anything that can be 'require'd using node. JSON and .js should be enough",
+    "how": "use the openDateFile utility method, passing the file name as the only argument"
+}

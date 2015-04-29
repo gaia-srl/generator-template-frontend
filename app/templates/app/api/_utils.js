@@ -46,6 +46,30 @@ module.exports = {
 
         return text;
 
+    },
+
+    // *********************************
+    //
+    //  Open file from the data directory
+    //
+    // *********************************
+
+    openDataFile: function (filename) {
+
+        var filepath = __dirname + '/data/' + filename;
+
+        if (fs.existsSync(filepath)) {
+
+            // invalidate require cache
+            delete require.cache[require.resolve(filepath)];
+
+            // return the module
+            return require(filepath);
+
+        } else {
+            return null;
+        }
+        
     }
 
 };
