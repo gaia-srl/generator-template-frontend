@@ -16,6 +16,8 @@ module.exports = function (grunt) {
         noauth = !!grunt.option('no-auth'),
         open = !!grunt.option('open');
 
+    var scssMode = 'libsass'; // 'compass' | 'libsass'
+
     // e.g. $ grunt build --bump=major
 
     grunt.initConfig({
@@ -49,7 +51,11 @@ module.exports = function (grunt) {
         watch: {
             compass: {
                 files: ['<%= settings.paths.app %>/<%= settings.paths.www %>/styles/**/*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
+                tasks: [
+                    // you can use Compass or libSass
+                    scssMode === 'libsass' ? 'sass:dist' : 'compass:server',
+                    'autoprefixer'
+                ]
             },
             assemble: {
                 files: ['<%= settings.paths.app %>/<%= settings.paths.www %>/templates/**/*.{js,hbs}'],
@@ -232,6 +238,13 @@ module.exports = function (grunt) {
         //     },
         //     all: ['<%= settings.paths.test %>/unit/api/']
         // },
+
+        /**********************************\
+         *
+         *  COMPASS version
+         *
+        \**********************************/
+
         compass: {
             options: {
                 sassDir: '<%= settings.paths.app %>/<%= settings.paths.www %>/styles',
@@ -257,6 +270,24 @@ module.exports = function (grunt) {
                 }
             }
         },
+
+        /**********************************\
+         *
+         *  LIB-SASS version
+         *
+        \**********************************/
+
+        sass: {
+            options: {
+                includePaths: ['<%= settings.paths.app %>/<%= settings.paths.www %>/bower_components', '<%= settings.paths.app %>/<%= settings.paths.www %>/styles/includes']
+            },
+            dist: {
+                files: {
+                    '<%= settings.paths.tmp %>/<%= settings.paths.www %>/styles/main.css' : '<%= settings.paths.app %>/<%= settings.paths.www %>/styles/main.scss'
+                }
+            }
+        },
+
         autoprefixer: {
             options: {
                 browsers: ['last 1 version']
@@ -504,11 +535,13 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'compass:server'
+                // use libSass or Compass
+                scssMode === 'libsass' ? 'sass:dist' : 'compass:server'
             ],
             test: [],
             dist: [
-                'compass:dist',
+                // use libSass or Compass
+                scssMode === 'libsass' ? 'sass:dist' : 'compass:dist',
                 'imagemin',
                 'svgmin',
                 'htmlmin:dist'
