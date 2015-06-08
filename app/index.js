@@ -200,6 +200,7 @@ var TemplateFrontendGenerator = yeoman.generators.Base.extend({
       this.template('_bower.json', 'bower.json');
       this.template('_apidoc.json', 'apidoc.json');
       this.template('_README.md', 'README.md');
+      this.template('_DEPLOY.md', 'DEPLOY.md');
 
       // TODO - do this with the gruntfile API
       this.src.copy('_Gruntfile.js', 'Gruntfile.js');

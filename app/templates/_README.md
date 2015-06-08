@@ -48,6 +48,8 @@ Compile project ready for release to client
 
 This task can also be configured to copy compiled files into another directory (e.g. a .Net project)
 
+For more information about deploying to QA and DEMO using Git please see [DEPLOY.md](DEPLOY.md)
+
 Update API docs (also happens during `build`)
 
     $ grunt apidocs
